@@ -69,10 +69,3 @@ publishing {
         }
     }
 }
-
-
-
-
-check.finalizedBy 'jacocoTestReport','jacocoTestCoverageVerification','sonarqube'
-generateMatrixAPI.dependsOn 'build','javadoc'
-generateMatrixAPI.finalizedBy 'publish'
