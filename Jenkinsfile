@@ -4,8 +4,7 @@ pipeline {
     stage('Build') {
       steps {
         echo 'phase build'
-        sh './gradle javadoc'
-        archiveArtifacts 'Documentation'
+        bat 'gradle javadoc'
       }
     }
 
