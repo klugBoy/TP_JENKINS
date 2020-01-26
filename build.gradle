@@ -1,0 +1,78 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "2.8"
+    id 'maven-publish'
+}
+
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+            }
+        }
+    }
+}
+
+
+
+task generateMatrixAPI(type:Copy) {
+
+        from ('build/reports') {
+        into 'reports'
+    }
+
+        from ('build/docs') {
+        into 'docs'
+    }
+
+        from ('build/libs') {
+        into 'libs'
+    }
+    into "../MatrixRelease/Matrix_v$version"
+
+}
+
+
+publishing {
+    repositories {
+        maven {
+            url 'https://mymavenrepo.com/repo/RCjFTj4YuDqbm1WX6kO8/'
+            credentials {
+                username 'myMavenRepo'
+                password '0123456789'
+            }
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+
+            from components.java
+        }
+    }
+}
+
+
+
+
+check.finalizedBy 'jacocoTestReport','jacocoTestCoverageVerification','sonarqube'
+generateMatrixAPI.dependsOn 'build','javadoc'
+generateMatrixAPI.finalizedBy 'publish'
