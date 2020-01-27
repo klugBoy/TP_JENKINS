@@ -18,17 +18,23 @@ pipeline {
     }
 
     stage('Code Analysis') {
-      steps {
-        withSonarQubeEnv('sonar') {
-          bat(script: 'gradle sonarqube', returnStatus: true)
+      parallel {
+        stage('Code Analysis') {
+          steps {
+            withSonarQubeEnv('sonar') {
+              bat(script: 'gradle sonarqube', returnStatus: true)
+              waitForQualityGate(webhookSecretId: 'ca116c31a71eb23bcf37cc02ff906a478d948d88', abortPipeline: true)
+            }
+
+          }
         }
 
-      }
-    }
+        stage('Test reporting') {
+          steps {
+            jacoco(minimumBranchCoverage: '0.8')
+          }
+        }
 
-    stage('Test reporting') {
-      steps {
-        jacoco(minimumBranchCoverage: '0.8')
       }
     }
 
