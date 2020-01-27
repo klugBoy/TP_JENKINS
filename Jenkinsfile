@@ -31,13 +31,13 @@ pipeline {
 
     stage('Deployment') {
       steps {
-        bat 'gradle \'publish\''
+        bat 'gradle publish'
       }
     }
 
     stage('Slack Notification') {
       steps {
-        slackSend(message: 'Déploiement est fini .')
+        slackSend(message: 'DÃ©ploiement est fini .')
       }
     }
 
