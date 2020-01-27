@@ -19,7 +19,11 @@ pipeline {
 
     stage('Code Analysis') {
       steps {
-        bat 'gradle sonarqube'
+        withSonarQubeEnv('sonar') {
+          bat 'gradle sonarqube'
+          waitForQualityGate true
+        }
+
       }
     }
 
@@ -37,7 +41,7 @@ pipeline {
 
     stage('Slack Notification') {
       steps {
-        slackSend(message: 'Déploiement est fini .')
+        slackSend(message: 'Deploiement est fini .')
       }
     }
 
