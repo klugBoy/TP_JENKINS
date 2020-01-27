@@ -23,9 +23,9 @@ pipeline {
           steps {
             withSonarQubeEnv('sonar') {
               bat(script: 'gradle sonarqube', returnStatus: true)
-              waitForQualityGate true
             }
 
+            waitForQualityGate true
           }
         }
 
