@@ -21,9 +21,6 @@ pipeline {
       steps {
         withSonarQubeEnv('sonar') {
           bat(script: 'gradle sonarqube', returnStatus: true)
-           timeout(time: 1, unit: 'HOURS') {
-                waitForQualityGate abortPipeline: true
-           }
         }
 
       }
