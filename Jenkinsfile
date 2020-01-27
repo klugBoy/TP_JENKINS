@@ -20,10 +20,24 @@ pipeline {
     stage('Code Analysis') {
       steps {
         bat 'gradle sonarqube'
-        withSonarQubeEnv('sonar') {
-          waitForQualityGate true
-        }
+      }
+    }
 
+    stage('Test reporting') {
+      steps {
+        jacoco(minimumBranchCoverage: '0.8')
+      }
+    }
+
+    stage('Deployment') {
+      steps {
+        bat 'gradle \'publish\''
+      }
+    }
+
+    stage('Slack Notification') {
+      steps {
+        slackSend(message: 'Déploiement est fini .')
       }
     }
 
