@@ -21,6 +21,7 @@ pipeline {
       steps {
         withSonarQubeEnv('sonar') {
           bat(script: 'gradle sonarqube', returnStatus: true)
+          waitForQualityGate(credentialsId: 'ca116c31a71eb23bcf37cc02ff906a478d948d88', abortPipeline: true)
         }
 
       }
