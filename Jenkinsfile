@@ -30,7 +30,7 @@ pipeline {
 
         stage('Test reporting') {
           steps {
-            jacoco(minimumBranchCoverage: '0.8')
+            jacoco()
           }
         }
 
