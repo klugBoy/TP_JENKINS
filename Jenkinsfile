@@ -18,6 +18,7 @@ pipeline {
 
     stage('Code Analysis') {
       parallel {
+        always { 
         stage('Code Analysis') {
           steps {
             withSonarQubeEnv('sonar') {
@@ -27,6 +28,7 @@ pipeline {
             waitForQualityGate true
           }
         }
+          }
 
         stage('Test reporting') {
           steps {
