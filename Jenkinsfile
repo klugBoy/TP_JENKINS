@@ -39,20 +39,29 @@ pipeline {
 
     
       stage('Deployment') {
+        when {
+          expression {
+          env.BRANCH_NAME != 'master' && env.CHANGE_ID == null
+          }
+        }
         
       steps {
-        if (env.BRANCH_NAME != 'master' && env.CHANGE_ID == null){
+        
         bat 'gradle publish'
       }
-           }
     }
 
     stage('Slack Notification') {
+      when {
+          expression {
+          env.BRANCH_NAME != 'master' && env.CHANGE_ID == null
+          }
+        }
       
       steps {
-        if (env.BRANCH_NAME != 'master' && env.CHANGE_ID == null){
+       
         slackSend(message: 'Deploiement est fini .')
-      }
+      
       }
     }
     }
