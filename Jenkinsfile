@@ -12,13 +12,15 @@ pipeline {
 
     stage('Mail Notification') {
       steps {
+        
+        always { 
         mail(subject: 'Mail Notification', body: 'La phase : Mail Notification .', cc: 'gm_begoug@esi.dz', to: 'ga_djamaa@esi.dz', from: 'abdelmalekdjamaa98@gmail.com')
-      }
+        }
+        }
     }
 
     stage('Code Analysis') {
       parallel {
-        always { 
         stage('Code Analysis') {
           steps {
             withSonarQubeEnv('sonar') {
@@ -28,7 +30,7 @@ pipeline {
             waitForQualityGate true
           }
         }
-          }
+          
 
         stage('Test reporting') {
           steps {
