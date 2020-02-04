@@ -37,20 +37,24 @@ pipeline {
       }
     }
 
-    if (env.BRANCH_NAME != 'master' && env.CHANGE_ID == null){
+    
       stage('Deployment') {
+        if (env.BRANCH_NAME != 'master' && env.CHANGE_ID == null){
       steps {
         bat 'gradle publish'
       }
+           }
     }
 
     stage('Slack Notification') {
+      if (env.BRANCH_NAME != 'master' && env.CHANGE_ID == null){
       steps {
         slackSend(message: 'Deploiement est fini .')
+      }
       }
     }
     }
     
 
-  }
+ 
 }
