@@ -13,10 +13,8 @@ pipeline {
     stage('Mail Notification') {
       steps {
         
-        failure { 
-        mail(subject: 'Mail Notification', body: 'La phase : Build has failed.', cc: 'gm_begoug@esi.dz', to: 'ga_djamaa@esi.dz', from: 'abdelmalekdjamaa98@gmail.com')
-        }
-        success { 
+        
+        always { 
         mail(subject: 'Mail Notification', body: 'La phase : Build has succeeded .', cc: 'gm_begoug@esi.dz', to: 'ga_djamaa@esi.dz', from: 'abdelmalekdjamaa98@gmail.com')
         }
         }
