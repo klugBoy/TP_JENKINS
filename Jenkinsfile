@@ -38,12 +38,22 @@ pipeline {
     }
 
     stage('Deployment') {
+      when {
+          expression {
+          env.CHANGE_ID == null
+          }
+        }
       steps {
         bat 'gradle publish'
       }
     }
 
     stage('Slack Notification') {
+      when {
+          expression {
+          env.CHANGE_ID == null
+          }
+        }
       steps {
         slackSend(message: 'Deploiement est fini .')
       }
