@@ -11,7 +11,6 @@ pipeline {
     }
 
     stage('Mail Notification') {
-        
       steps {
         mail(subject: 'Mail Notification', body: 'La phase : Build has failed .', cc: 'gm_begoug@esi.dz', to: 'ga_djamaa@esi.dz', from: 'abdelmalekdjamaa98@gmail.com')
       }
@@ -28,7 +27,6 @@ pipeline {
             waitForQualityGate true
           }
         }
-          
 
         stage('Test reporting') {
           steps {
@@ -39,35 +37,29 @@ pipeline {
       }
     }
 
-    
-      stage('Deployment') {
-        when {
-          expression {
-           env.CHANGE_ID == null
-          }
+    stage('Deployment') {
+      when {
+        expression {
+          env.CHANGE_ID == null
         }
-        
+
+      }
       steps {
-        
         bat 'gradle publish'
       }
     }
 
     stage('Slack Notification') {
       when {
-          expression {
+        expression {
           env.CHANGE_ID == null
-          }
         }
-      
+
+      }
       steps {
-       
         slackSend(message: 'Deploiement est fini .')
-      
       }
     }
-    }
-    
 
- 
+  }
 }
