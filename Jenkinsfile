@@ -30,7 +30,7 @@ pipeline {
 
         stage('Test reporting') {
           steps {
-            jacoco()
+            jacoco(exclusionPattern: '**/test/*.class')
           }
         }
 
@@ -39,10 +39,11 @@ pipeline {
 
     stage('Deployment') {
       when {
-          expression {
+        expression {
           env.CHANGE_ID == null
-          }
         }
+
+      }
       steps {
         bat 'gradle publish'
       }
@@ -50,10 +51,11 @@ pipeline {
 
     stage('Slack Notification') {
       when {
-          expression {
+        expression {
           env.CHANGE_ID == null
-          }
         }
+
+      }
       steps {
         slackSend(message: 'Deploiement est fini .')
       }
