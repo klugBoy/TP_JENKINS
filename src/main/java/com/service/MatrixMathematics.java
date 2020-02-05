@@ -96,10 +96,10 @@ public class MatrixMathematics {
 	}
 
 	public static Matrix inverse(Matrix matrix) throws NoSquareException {
-		if(determinant(matrix) != 0){
-		return (transpose(cofactor(matrix)).multiplyByConstant(1.0/determinant(matrix)));
+		if(determinant(matrix) == 0){
+			throw new NoSquareException("matrix need to be have a non-null determinant .");
 		} else {
-                return null;
+                return (transpose(cofactor(matrix)).multiplyByConstant(1.0/determinant(matrix)));
                 }
 	}
 }
